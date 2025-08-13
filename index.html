@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduConnect Ghana | Bridging Educational Gaps</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <h1>EduConnect <span>Ghana</span></h1>
+            </div>
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="#resources">Resources</a></li>
+                    <li><a href="#tutors">Find Tutors</a></li>
+                    <li><a href="#about">About</a></li>
+                </ul>
+            </nav>
+            <button class="mobile-menu-toggle">☰</button>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Empowering Ghanaian Students Through Digital Education</h2>
+                <p>Access free learning materials, connect with volunteer tutors, and discover local educational opportunities across Ghana.</p>
+                <div class="cta-buttons">
+                    <a href="https://openstax.org/subjects" class="btn primary">Explore Resources</a>
+                    <a href="#tutors" class="btn secondary">Find a Tutor</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="sketchingsh.svg" alt="Students learning together with digital devices">
+            </div>
+        </div>
+        
+        <!-- Decorative floating icons -->
+        <div class="floating-icon math">🧮</div>
+        <div class="floating-icon science">🔬</div>
+        <div class="floating-icon book">📚</div>
+    </section>
+
+    <section id="resources" class="resource-section">
+        <div class="container">
+            <h2>Educational Resources</h2>
+            <div class="resource-filters">
+                <select id="subject-filter">
+                    <option value="all">All Subjects</option>
+                    <option value="math">Mathematics</option>
+                    <option value="science">Science</option>
+                    <option value="english">English</option>
+                    <option value="ghanaian-languages">Ghanaian Languages</option>
+                </select>
+                <select id="level-filter">
+                    <option value="all">All Levels</option>
+                    <option value="primary">Primary</option>
+                    <option value="jhs">JHS</option>
+                    <option value="shs">SHS</option>
+                </select>
+            </div>
+            <div class="resource-grid" id="resource-container">
+                <!-- Resources will be loaded dynamically via JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <section id="tutors" class="tutor-section">
+        <div class="container">
+            <h2>Find Local Tutors</h2>
+            <div class="tutor-search">
+                <input type="text" id="location-search" placeholder="Enter your location (e.g., Kumasi)">
+                <button id="search-tutors" class="btn primary">Search</button>
+            </div>
+            <div class="tutor-results" id="tutor-results-container">
+                <!-- Tutor results will be loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about-section">
+        <div class="container">
+            <div class="about-content">
+                <h2>About EduConnect Ghana</h2>
+                <div class="about-grid">
+                    <div class="about-card">
+                        <div class="about-icon">📚</div>
+                        <h3>Our Mission</h3>
+                        <p>To bridge educational gaps in Ghana by connecting students with quality learning resources and tutors through innovative digital solutions.</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-icon">🌍</div>
+                        <h3>Our Reach</h3>
+                        <p>Currently serving students in 5 regions across Ghana with plans to expand nationwide by 2025.</p>
+                    </div>
+                    <div class="about-card">
+                        <div class="about-icon">💡</div>
+                        <h3>Our Approach</h3>
+                        <p>Combining local educational expertise with modern technology to create solutions that work for Ghanaian students.</p>
+                    </div>
+                </div>
+                
+                <div class="team-section">
+                    <h3>Meet The Team</h3>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <div class="member-initial">JA</div>
+                            <h4>Jeremiah Adawu</h4>
+                            <p>Developer & Education specialist</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="member-initial">MM</div>
+                            <h4>Maud Marfo</h4>
+                            <p>Developer</p>
+                        </div>
+        
+                    </div>
+                </div>
+                
+                <div class="stats-section">
+                    <div class="stat-item">
+                        <div class="stat-number">1,200+</div>
+                        <div class="stat-label">Students Helped</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">85</div>
+                        <div class="stat-label">Volunteer Tutors</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">12</div>
+                        <div class="stat-label">Partner Schools</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h3>EduConnect Ghana</h3>
+                    <p>Bridging educational gaps through technology and community.</p>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#resources">Resources</a></li>
+                        <li><a href="#tutors">Tutors</a></li>
+                        <li><a href="#volunteer">Volunteer</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Contact</h3>
+                    <p>info@educonnectgh.org</p>
+                    <p>+233504948227</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 EduConnect Ghana. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
