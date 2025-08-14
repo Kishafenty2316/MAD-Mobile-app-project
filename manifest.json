@@ -1,0 +1,13 @@
+{
+	"name": "EduConnect Ghana",
+	"short_name": "EduConnect",
+	"start_url": "./index.html",
+	"scope": "./",
+	"display": "standalone",
+	"background_color": "#F5F5F5",
+	"theme_color": "#FF6B00",
+	"description": "Bridging educational gaps through resources and tutors.",
+	"icons": []
+}
+
+

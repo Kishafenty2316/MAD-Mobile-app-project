@@ -1,289 +1,415 @@
-// SVG Icons for Resources
-const icons = {
-    math: `
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M5 12h14M12 5l7 7-7 7"/>
-    </svg>`,
-
-    science: `
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M19.4 15a2 2 0 0 1 .6 1.4V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-3.6a2 2 0 0 1 .6-1.4L12 8l6.4 7z"/>
-    </svg>`,
-
-    english: `
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M2 12h20M12 2v20"/>
-    </svg>`,
-
-    language: `
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10"/>
-        <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
-    </svg>`,
-
-    history: `
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="12" cy="12" r="10"/>
-        <polyline points="12 6 12 12 16 14"/>
-    </svg>`,
-
-    ict: `
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-        <path d="M8 21h8M12 17v4"/>
-    </svg>`
+// --- FIREBASE INITIALIZATION ---
+// Ensure you have your correct Firebase config here
+const firebaseConfig = {
+    apiKey:"AIzaSyB9F6rZyDWdhIMzFBnSL7AfcAxU4UmcczA", // Replace with your actual API key
+    authDomain: "educonnect-a9c64.firebaseapp.com",
+    projectId: "educonnect-a9c64",
+    storageBucket: "educonnect-a9c64.appspot.com",
+    messagingSenderId: "670330612315",
+    appId: "1:670330612315:web:6a3386011d1286484eed7e"
 };
 
-// Resource Data with SVG Icons
-const resources = [
-    {
-        id: 1,
-        title: "Mathematics for JHS",
-        subject: "math",
-        level: "jhs",
-        description: "Comprehensive mathematics materials covering the JHS curriculum with practice problems.",
-        format: "PDF",
-        language: "English",
-        viewLink: "https://www.khanacademy.org/math",
-        downloadLink: "https://www.mathsghana.com/downloads/jhs-math-curriculum.pdf",
-        icon: icons.math
-    },
-    {
-        id: 2,
-        title: "Integrated Science for SHS",
-        subject: "science",
-        level: "shs",
-        description: "Detailed science notes and experiments for SHS students.",
-        format: "PDF",
-        language: "English",
-        viewLink: "https://www.ck12.org/science/",
-        downloadLink: "https://www.ghanascience.org.gh/downloads/integrated-science.pdf",
-        icon: icons.science
-    },
-    {
-        id: 3,
-        title: "Twi Language Basics",
-        subject: "ghanaian-languages",
-        level: "primary",
-        description: "Learn basic Twi with interactive exercises and audio clips.",
-        format: "Interactive",
-        language: "Twi",
-        viewLink: "https://www.learnakan.com",
-        downloadLink: "",
-        icon: icons.language
-    },
-    {
-        id: 4,
-        title: "English Comprehension",
-        subject: "english",
-        level: "jhs",
-        description: "Improve reading comprehension skills with graded passages.",
-        format: "PDF",
-        language: "English",
-        viewLink: "https://www.britishcouncil.org.gh/english",
-        downloadLink: "https://www.ghanaenglish.org/downloads/jhs-english.pdf",
-        icon: icons.english
-    },
-    {
-        id: 5,
-        title: "Computer Basics",
-        subject: "ict",
-        level: "shs",
-        description: "Introduction to computers and digital literacy.",
-        format: "Interactive",
-        language: "English",
-        viewLink: "https://digitalskills.withgoogle.com/",
-        downloadLink: "",
-        icon: icons.ict
-    }
-];
+// Initialize Firebase
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
 
-// Tutor Data (without images)
-const tutors = [
-    {
-        id: 1,
-        name: "Kwame Asante",
-        subjects: ["math", "science"],
-        location: "Accra",
-        bio: "Experienced math and science tutor with 5 years of teaching JHS students.",
-        contact: "tel:+233241234567"
-    },
-    {
-        id: 2,
-        name: "Ama Serwaa",
-        subjects: ["english", "ghanaian-languages"],
-        location: "Kumasi",
-        bio: "English and Twi language specialist with a passion for literacy.",
-        contact: "tel:+233244567890"
-    },
-    {
-        id: 3,
-        name: "Yaw Boateng",
-        subjects: ["math"],
-        location: "Tamale",
-        bio: "Math enthusiast who makes complex concepts simple to understand.",
-        contact: "tel:+233245678901"
-    },
-    {
-        id: 4,
-        name: "Esi Mensah",
-        subjects: ["science", "math"],
-        location: "Cape Coast",
-        bio: "Science teacher with a focus on practical, hands-on learning.",
-        contact: "tel:+233247890123"
-    }
-];
+// --- DATABASE REFERENCES ---
+const resourcesCollection = db.collection('resources');
+const tutorsCollection = db.collection('tutors');
 
-// DOM Elements
-const resourceContainer = document.getElementById('resource-container');
-const subjectFilter = document.getElementById('subject-filter');
-const levelFilter = document.getElementById('level-filter');
-const tutorResultsContainer = document.getElementById('tutor-results-container');
-const locationSearch = document.getElementById('location-search');
-const searchTutorsBtn = document.getElementById('search-tutors');
+// --- DOM ELEMENT SELECTORS ---
+// Navigation & Auth
+const loginBtn = document.getElementById('login-btn');
+const logoutBtn = document.getElementById('logout-btn');
+const loginLi = document.getElementById('login-li');
+const logoutLi = document.getElementById('logout-li');
 const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
 const mainNav = document.querySelector('.main-nav');
 
-// Initialize the app
+// Auth Modal
+const authModal = document.getElementById('auth-modal');
+const closeModal = document.querySelector('.close-modal');
+const authTitle = document.getElementById('auth-title');
+const authToggle = document.getElementById('auth-toggle');
+const authSubmit = document.getElementById('auth-submit');
+const authEmail = document.getElementById('auth-email');
+const authPassword = document.getElementById('auth-password');
+
+// Resources
+const resourceContainer = document.getElementById('resource-container');
+const subjectFilter = document.getElementById('subject-filter');
+const levelFilter = document.getElementById('level-filter');
+const addResourceBtn = document.getElementById('add-resource-btn');
+const resourceModal = document.getElementById('resource-modal');
+const closeResourceModal = document.querySelector('.close-resource-modal');
+const resourceSubmitBtn = document.getElementById('resource-submit-btn');
+
+// Tutors
+const tutorResultsContainer = document.getElementById('tutor-results-container');
+const locationSearch = document.getElementById('location-search');
+const searchTutorsBtn = document.getElementById('search-tutors');
+const addTutorBtn = document.getElementById('add-tutor-btn');
+const tutorModal = document.getElementById('tutor-modal');
+const closeTutorModal = document.querySelector('.close-tutor-modal');
+const tutorSubmitBtn = document.getElementById('tutor-submit-btn');
+
+// Third-Party API
+const holidaysContainer = document.getElementById('holidays-container');
+
+// --- GLOBAL STATE ---
+let isSignUp = false;
+
+// --- APP INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', function() {
-    displayResources(resources);
-    displayTutors(tutors);
-    
-    subjectFilter.addEventListener('change', filterResources);
-    levelFilter.addEventListener('change', filterResources);
-    searchTutorsBtn.addEventListener('click', searchTutors);
-    mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-    
-    if ('serviceWorker' in navigator) {
-        window.addEventListener('load', () => {
-            navigator.serviceWorker.register('sw.js').then(registration => {
-                console.log('ServiceWorker registration successful');
-            }).catch(err => {
-                console.log('ServiceWorker registration failed: ', err);
-            });
-        });
-    }
+    // Setup all event listeners
+    setupEventListeners();
+
+    // Initial data fetch from Firestore and APIs
+    fetchAndFilterResources();
+    fetchAllTutors();
+    fetchHolidays();
+
+    // Listen for auth state changes to update the UI
+    auth.onAuthStateChanged(handleAuthStateChange);
+
+    // Register the service worker for PWA capabilities
+    registerServiceWorker();
 });
 
-// Display resources with SVG icons
+// --- EVENT LISTENER SETUP ---
+function setupEventListeners() {
+    // Navigation
+    mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+
+    // Authentication
+    loginBtn.addEventListener('click', () => { authModal.style.display = 'block'; });
+    logoutBtn.addEventListener('click', logoutUser);
+    closeModal.addEventListener('click', () => { authModal.style.display = 'none'; });
+    authToggle.addEventListener('click', toggleAuthMode);
+    authSubmit.addEventListener('click', handleAuthSubmit);
+
+    // Resource Filtering & CRUD
+    subjectFilter.addEventListener('change', fetchAndFilterResources);
+    levelFilter.addEventListener('change', fetchAndFilterResources);
+    addResourceBtn.addEventListener('click', openAddResourceModal);
+    closeResourceModal.addEventListener('click', () => { resourceModal.style.display = 'none'; });
+    resourceContainer.addEventListener('click', handleResourceActions);
+    resourceSubmitBtn.addEventListener('click', handleResourceSubmit);
+
+    // Tutor Search & CRUD
+    searchTutorsBtn.addEventListener('click', searchTutors);
+    addTutorBtn.addEventListener('click', openAddTutorModal);
+    closeTutorModal.addEventListener('click', () => { tutorModal.style.display = 'none'; });
+    tutorResultsContainer.addEventListener('click', handleTutorActions);
+    tutorSubmitBtn.addEventListener('click', handleTutorSubmit);
+}
+
+// --- AUTHENTICATION LOGIC ---
+function handleAuthStateChange(user) {
+    if (user) {
+        // User is logged in
+        loginLi.style.display = 'none';
+        logoutLi.style.display = 'block';
+        addResourceBtn.style.display = 'inline-block';
+        addTutorBtn.style.display = 'inline-block';
+    } else {
+        // User is logged out
+        loginLi.style.display = 'block';
+        logoutLi.style.display = 'none';
+        addResourceBtn.style.display = 'none';
+        addTutorBtn.style.display = 'none';
+    }
+    // Refresh data to show/hide admin buttons on cards
+    fetchAndFilterResources();
+    fetchAllTutors();
+}
+
+function toggleAuthMode() {
+    isSignUp = !isSignUp;
+    authTitle.textContent = isSignUp ? 'Sign Up' : 'Login';
+    authSubmit.textContent = isSignUp ? 'Sign Up' : 'Login';
+    authToggle.textContent = isSignUp ? 'Already have an account? Login' : 'Need an account? Sign Up';
+}
+
+function handleAuthSubmit() {
+    const email = authEmail.value;
+    const password = authPassword.value;
+
+    if (isSignUp) {
+        auth.createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                authModal.style.display = 'none';
+                showNotification('Signed up successfully!');
+            })
+            .catch(error => showNotification(error.message, 'error'));
+    } else {
+        auth.signInWithEmailAndPassword(email, password)
+            .then(() => {
+                authModal.style.display = 'none';
+                showNotification('Logged in successfully!');
+            })
+            .catch(error => showNotification(error.message, 'error'));
+    }
+}
+
+function logoutUser() {
+    auth.signOut();
+    showNotification('You have been logged out.');
+}
+
+// --- DATA FETCHING & DISPLAY ---
+function fetchAndFilterResources() {
+    let query = resourcesCollection;
+    if (subjectFilter.value !== 'all') query = query.where('subject', '==', subjectFilter.value);
+    if (levelFilter.value !== 'all') query = query.where('level', '==', levelFilter.value);
+
+    query.get().then(snapshot => {
+        const resources = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        displayResources(resources);
+    }).catch(error => console.error("Error fetching resources: ", error));
+}
+
+function fetchAllTutors() {
+    tutorsCollection.get().then(snapshot => {
+        const tutors = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        displayTutors(tutors);
+    }).catch(error => console.error("Error fetching tutors: ", error));
+}
+
+function searchTutors() {
+    const locationQuery = locationSearch.value.trim().toLowerCase();
+    if (!locationQuery) {
+        fetchAllTutors();
+        return;
+    }
+    // Client-side filtering as Firestore doesn't support native partial text search easily
+    tutorsCollection.get().then(snapshot => {
+        const tutors = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        const filteredTutors = tutors.filter(tutor => tutor.location.toLowerCase().includes(locationQuery));
+        displayTutors(filteredTutors);
+    });
+}
+
 function displayResources(resourcesToDisplay) {
     resourceContainer.innerHTML = '';
-    
-    resourcesToDisplay.forEach((resource, index) => {
+    const user = auth.currentUser;
+
+    resourcesToDisplay.forEach(resource => {
         const resourceCard = document.createElement('div');
-        resourceCard.className = 'resource-card fade-in';
-        resourceCard.style.animationDelay = `${index * 0.1}s`;
-        resourceCard.dataset.subject = resource.subject;
-        
-        const downloadButton = resource.downloadLink 
-            ? `<a href="${resource.downloadLink}" target="_blank" class="btn secondary">Download</a>`
-            : '';
-        
+        resourceCard.className = 'resource-card';
+        const adminActions = user ? `
+            <div class="admin-actions" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; display: flex; gap: 10px;">
+                <button class="btn-edit" data-id="${resource.id}">Edit</button>
+                <button class="btn-delete" data-id="${resource.id}">Delete</button>
+            </div>` : '';
+
         resourceCard.innerHTML = `
-            <div class="resource-icon">
-                ${resource.icon}
-            </div>
             <div class="resource-content">
-                <h3 class="resource-title">${resource.title}</h3>
-                <div class="resource-meta">
-                    <span>${resource.level.toUpperCase()}</span>
-                    <span>${resource.format}</span>
-                </div>
-                <p class="resource-description">${resource.description}</p>
+                <h3>${resource.title}</h3>
+                <p>${resource.description}</p>
                 <div class="resource-actions">
-                    <a href="${resource.viewLink}" target="_blank" class="btn primary">View Online</a>
-                    ${downloadButton}
+                    <a href="${resource.viewLink}" target="_blank" class="btn primary">View</a>
                 </div>
-            </div>
-        `;
-        
+                ${adminActions}
+            </div>`;
         resourceContainer.appendChild(resourceCard);
     });
 }
 
-// Display tutors without images
 function displayTutors(tutorsToDisplay) {
     tutorResultsContainer.innerHTML = '';
-    
+    const user = auth.currentUser;
+
     if (tutorsToDisplay.length === 0) {
-        tutorResultsContainer.innerHTML = `
-            <div class="no-results">
-                <p>No tutors found matching your criteria. Try adjusting your search.</p>
-            </div>
-        `;
+        tutorResultsContainer.innerHTML = `<p>No tutors found.</p>`;
         return;
     }
-    
-    tutorsToDisplay.forEach((tutor, index) => {
+
+    tutorsToDisplay.forEach(tutor => {
         const tutorCard = document.createElement('div');
-        tutorCard.className = 'tutor-card fade-in';
-        tutorCard.style.animationDelay = `${index * 0.1}s`;
-        
-        const subjectTags = tutor.subjects.map(subject => {
-            let displaySubject;
-            switch(subject) {
-                case 'math': displaySubject = 'Mathematics'; break;
-                case 'science': displaySubject = 'Science'; break;
-                case 'english': displaySubject = 'English'; break;
-                case 'ghanaian-languages': displaySubject = 'Ghanaian Languages'; break;
-                case 'ict': displaySubject = 'ICT'; break;
-                case 'history': displaySubject = 'History'; break;
-                default: displaySubject = subject;
-            }
-            return `<span class="subject-tag">${displaySubject}</span>`;
-        }).join('');
-        
+        tutorCard.className = 'tutor-card';
+        const subjectTags = tutor.subjects.map(s => `<span class="subject-tag">${s}</span>`).join('');
+        const adminActions = user ? `
+            <div class="admin-actions" style="margin-top: 15px; border-top: 1px solid #eee; padding-top: 10px; display: flex; gap: 10px;">
+                <button class="btn-edit-tutor" data-id="${tutor.id}">Edit</button>
+                <button class="btn-delete-tutor" data-id="${tutor.id}">Delete</button>
+            </div>` : '';
+
         tutorCard.innerHTML = `
             <div class="tutor-info">
                 <h3>${tutor.name}</h3>
                 <div class="tutor-subjects">${subjectTags}</div>
                 <p class="tutor-bio">${tutor.bio}</p>
-                <div class="tutor-location">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
-                        <circle cx="12" cy="10" r="3"/>
-                    </svg>
-                    <span>${tutor.location}</span>
-                </div>
-                <a href="${tutor.contact}" class="btn primary">Contact Tutor</a>
-            </div>
-        `;
-        
+                <p class="tutor-location">📍 ${tutor.location}</p>
+                ${adminActions}
+            </div>`;
         tutorResultsContainer.appendChild(tutorCard);
     });
 }
 
-// Filter functions and other utilities remain the same...
-function filterResources() {
-    const selectedSubject = subjectFilter.value;
-    const selectedLevel = levelFilter.value;
-    
-    let filteredResources = resources;
-    
-    if (selectedSubject !== 'all') {
-        filteredResources = filteredResources.filter(resource => resource.subject === selectedSubject);
-    }
-    
-    if (selectedLevel !== 'all') {
-        filteredResources = filteredResources.filter(resource => resource.level === selectedLevel);
-    }
-    
-    displayResources(filteredResources);
+// --- RESOURCE CRUD LOGIC ---
+function openAddResourceModal() {
+    document.getElementById('resource-modal-title').innerText = 'Add New Resource';
+    document.getElementById('resource-id').value = '';
+    document.getElementById('resource-title-input').value = '';
+    document.getElementById('resource-desc-input').value = '';
+    document.getElementById('resource-viewlink-input').value = '';
+    resourceModal.style.display = 'block';
 }
 
-function searchTutors() {
-    const locationQuery = locationSearch.value.trim().toLowerCase();
-    
-    if (locationQuery === '') {
-        displayTutors(tutors);
+function handleResourceActions(e) {
+    if (e.target.classList.contains('btn-delete')) {
+        if (confirm('Are you sure you want to delete this resource?')) {
+            deleteResource(e.target.dataset.id);
+        }
+    }
+    if (e.target.classList.contains('btn-edit')) {
+        openEditResourceModal(e.target.dataset.id);
+    }
+}
+
+async function handleResourceSubmit() {
+    const resourceId = document.getElementById('resource-id').value;
+    const resourceData = {
+        title: document.getElementById('resource-title-input').value,
+        description: document.getElementById('resource-desc-input').value,
+        subject: document.getElementById('resource-subject-input').value,
+        level: document.getElementById('resource-level-input').value,
+        viewLink: document.getElementById('resource-viewlink-input').value,
+    };
+
+    try {
+        if (resourceId) {
+            await resourcesCollection.doc(resourceId).update(resourceData);
+            showNotification('Resource updated successfully!');
+        } else {
+            await resourcesCollection.add(resourceData);
+            showNotification('Resource added successfully!');
+        }
+        resourceModal.style.display = 'none';
+        fetchAndFilterResources();
+    } catch (error) {
+        showNotification('Error saving resource.', 'error');
+    }
+}
+
+async function deleteResource(id) {
+    try {
+        await resourcesCollection.doc(id).delete();
+        showNotification('Resource deleted!');
+        fetchAndFilterResources();
+    } catch (error) {
+        showNotification('Error deleting resource.', 'error');
+    }
+}
+
+async function openEditResourceModal(id) {
+    const doc = await resourcesCollection.doc(id).get();
+    if (!doc.exists) return;
+    const data = doc.data();
+
+    document.getElementById('resource-modal-title').innerText = 'Edit Resource';
+    document.getElementById('resource-id').value = id;
+    document.getElementById('resource-title-input').value = data.title;
+    document.getElementById('resource-desc-input').value = data.description;
+    document.getElementById('resource-subject-input').value = data.subject;
+    document.getElementById('resource-level-input').value = data.level;
+    document.getElementById('resource-viewlink-input').value = data.viewLink;
+    resourceModal.style.display = 'block';
+}
+
+// --- TUTOR CRUD LOGIC ---
+function openAddTutorModal() {
+    document.getElementById('tutor-modal-title').innerText = 'Add New Tutor';
+    document.getElementById('tutor-id').value = '';
+    document.getElementById('tutor-name-input').value = '';
+    document.getElementById('tutor-location-input').value = '';
+    document.getElementById('tutor-subjects-input').value = '';
+    document.getElementById('tutor-bio-input').value = '';
+    tutorModal.style.display = 'block';
+}
+
+function handleTutorActions(e) {
+    if (e.target.classList.contains('btn-delete-tutor')) {
+        if (confirm('Are you sure you want to delete this tutor?')) {
+            deleteTutor(e.target.dataset.id);
+        }
+    }
+    if (e.target.classList.contains('btn-edit-tutor')) {
+        openEditTutorModal(e.target.dataset.id);
+    }
+}
+
+async function handleTutorSubmit() {
+    const tutorId = document.getElementById('tutor-id').value;
+    const subjectsArray = document.getElementById('tutor-subjects-input').value.split(',').map(s => s.trim());
+    const tutorData = {
+        name: document.getElementById('tutor-name-input').value,
+        location: document.getElementById('tutor-location-input').value,
+        bio: document.getElementById('tutor-bio-input').value,
+        subjects: subjectsArray,
+    };
+
+    try {
+        if (tutorId) {
+            await tutorsCollection.doc(tutorId).update(tutorData);
+            showNotification('Tutor updated successfully!');
+        } else {
+            await tutorsCollection.add(tutorData);
+            showNotification('Tutor added successfully!');
+        }
+        tutorModal.style.display = 'none';
+        fetchAllTutors();
+    } catch (error) {
+        showNotification('Error saving tutor.', 'error');
+    }
+}
+
+async function deleteTutor(id) {
+    try {
+        await tutorsCollection.doc(id).delete();
+        showNotification('Tutor deleted!');
+        fetchAllTutors();
+    } catch (error) {
+        showNotification('Error deleting tutor.', 'error');
+    }
+}
+
+async function openEditTutorModal(id) {
+    const doc = await tutorsCollection.doc(id).get();
+    if (!doc.exists) return;
+    const data = doc.data();
+
+    document.getElementById('tutor-modal-title').innerText = 'Edit Tutor';
+    document.getElementById('tutor-id').value = id;
+    document.getElementById('tutor-name-input').value = data.name;
+    document.getElementById('tutor-location-input').value = data.location;
+    document.getElementById('tutor-bio-input').value = data.bio;
+    document.getElementById('tutor-subjects-input').value = data.subjects.join(', ');
+    tutorModal.style.display = 'block';
+}
+
+// --- THIRD-PARTY API & UTILITIES ---
+function fetchHolidays() {
+    const apiUrl = `https://date.nager.at/api/v3/NextPublicHolidays/GH`;
+    fetch(apiUrl)
+        .then(response => response.ok ? response.json() : Promise.reject('Network response was not ok'))
+        .then(data => displayHolidays(data))
+        .catch(error => console.error('Error fetching holiday data:', error));
+}
+
+function displayHolidays(holidays) {
+    if (!holidays || holidays.length === 0) {
+        holidaysContainer.innerHTML = '<p>No upcoming holidays found.</p>';
         return;
     }
-    
-    const filteredTutors = tutors.filter(tutor => 
-        tutor.location.toLowerCase().includes(locationQuery)
-    );
-    
-    displayTutors(filteredTutors);
+    let holidayHtml = holidays.slice(0, 4).map(holiday => `
+        <div style="background:white; padding:20px; border-radius:8px; box-shadow:0 4px 6px rgba(0,0,0,0.1);">
+            <h4 style="color:var(--primary-color);">${holiday.name}</h4>
+            <p style="font-size:1.1rem; margin-top:5px;">${new Date(holiday.date).toDateString()}</p>
+        </div>`).join('');
+    holidaysContainer.innerHTML = `<div style="display:flex; flex-wrap:wrap; justify-content:center; gap:20px;">${holidayHtml}</div>`;
 }
 
 function toggleMobileMenu() {
@@ -291,26 +417,24 @@ function toggleMobileMenu() {
     mobileMenuToggle.textContent = mainNav.classList.contains('active') ? '✕' : '☰';
 }
 
-// Offline detection
-window.addEventListener('offline', showOfflineStatus);
-window.addEventListener('online', showOnlineStatus);
-
-function showOfflineStatus() {
-    showNotification("You're currently offline. Some features may not be available.");
-}
-
-function showOnlineStatus() {
-    showNotification("Your connection has been restored.");
-}
-
-function showNotification(message) {
+function showNotification(message, type = 'success') {
     const notification = document.createElement('div');
     notification.className = 'notification';
     notification.textContent = message;
+    notification.style.backgroundColor = type === 'error' ? 'var(--danger-color)' : 'var(--success-color)';
     document.body.appendChild(notification);
-    
     setTimeout(() => {
         notification.classList.add('fade-out');
         setTimeout(() => notification.remove(), 500);
     }, 3000);
+}
+
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('ServiceWorker registration successful'))
+                .catch(err => console.log('ServiceWorker registration failed: ', err));
+        });
+    }
 }

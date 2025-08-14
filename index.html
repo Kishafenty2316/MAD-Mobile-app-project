@@ -10,17 +10,17 @@
 <body>
     <header class="main-header">
         <div class="container">
-            <div class="logo">
-                <h1>EduConnect <span>Ghana</span></h1>
-            </div>
+        <div class="logo"> ... </div>
             <nav class="main-nav">
-                <ul>
-                    <li><a href="#resources">Resources</a></li>
-                    <li><a href="#tutors">Find Tutors</a></li>
-                    <li><a href="#about">About</a></li>
+            <ul>
+                <li><a href="#resources">Resources</a></li>
+                <li><a href="#tutors">Find Tutors</a></li>
+                <li><a href="#about">About</a></li>
+                <li id="login-li"><a href="#" id="login-btn">Login</a></li>
+                <li id="logout-li" style="display:none;"><a href="#" id="logout-btn">Logout</a></li>
                 </ul>
-            </nav>
-            <button class="mobile-menu-toggle">☰</button>
+             </nav>
+                        <button class="mobile-menu-toggle">☰</button>
         </div>
     </header>
 
@@ -30,7 +30,7 @@
                 <h2>Empowering Ghanaian Students Through Digital Education</h2>
                 <p>Access free learning materials, connect with volunteer tutors, and discover local educational opportunities across Ghana.</p>
                 <div class="cta-buttons">
-                    <a href="https://openstax.org/subjects" class="btn primary">Explore Resources</a>
+                    <a href="https://openstax.org/subjects" target="_blank" rel="noopener noreferrer" class="btn primary">Explore Resources</a>
                     <a href="#tutors" class="btn secondary">Find a Tutor</a>
                 </div>
             </div>
@@ -47,96 +47,125 @@
 
     <section id="resources" class="resource-section">
         <div class="container">
-            <h2>Educational Resources</h2>
-            <div class="resource-filters">
-                <select id="subject-filter">
-                    <option value="all">All Subjects</option>
+            <div style="text-align: center; margin-bottom: 20px;">
+                <button id="add-resource-btn" class="btn primary" style="display: none;">＋ Add New Resource</button>
+            </div>
+            </div>
+
+        <div id="resource-modal" class="modal" style="display:none; /* same style as auth-modal */">
+            <div class="modal-content">
+                <span class="close-resource-modal">&times;</span>
+                <h3 id="resource-modal-title">Add New Resource</h3>
+                <input type="hidden" id="resource-id"> <input type="text" id="resource-title-input" placeholder="Title">
+                <input type="text" id="resource-desc-input" placeholder="Description">
+                <select id="resource-subject-input">
                     <option value="math">Mathematics</option>
                     <option value="science">Science</option>
                     <option value="english">English</option>
-                    <option value="ghanaian-languages">Ghanaian Languages</option>
-                </select>
-                <select id="level-filter">
-                    <option value="all">All Levels</option>
+                    </select>
+                <select id="resource-level-input">
                     <option value="primary">Primary</option>
                     <option value="jhs">JHS</option>
                     <option value="shs">SHS</option>
                 </select>
-            </div>
-            <div class="resource-grid" id="resource-container">
-                <!-- Resources will be loaded dynamically via JavaScript -->
+                <input type="text" id="resource-viewlink-input" placeholder="View Link URL">
+                <button id="resource-submit-btn" class="btn primary">Save Resource</button>
             </div>
         </div>
-    </section>
 
-    <section id="tutors" class="tutor-section">
-        <div class="container">
-            <h2>Find Local Tutors</h2>
-            <div class="tutor-search">
-                <input type="text" id="location-search" placeholder="Enter your location (e.g., Kumasi)">
-                <button id="search-tutors" class="btn primary">Search</button>
-            </div>
-            <div class="tutor-results" id="tutor-results-container">
-                <!-- Tutor results will be loaded dynamically -->
-            </div>
-        </div>
-    </section>
+                <div class="container">
+                    <h2>Educational Resources</h2>
+                    <div class="resource-filters">
+                        <select id="subject-filter">
+                            <option value="all">All Subjects</option>
+                            <option value="math">Mathematics</option>
+                            <option value="science">Science</option>
+                            <option value="english">English</option>
+                            <option value="ghanaian-languages">Ghanaian Languages</option>
+                        </select>
+                        <select id="level-filter">
+                            <option value="all">All Levels</option>
+                            <option value="primary">Primary</option>
+                            <option value="jhs">JHS</option>
+                            <option value="shs">SHS</option>
+                        </select>
+                    </div>
+                    <div class="resource-grid" id="resource-container">
+                        <!-- Resources will be loaded dynamically via JavaScript -->
+                    </div>
+                </div>
+            </section>
+            
 
-    <section id="about" class="about-section">
-        <div class="container">
-            <div class="about-content">
-                <h2>About EduConnect Ghana</h2>
-                <div class="about-grid">
-                    <div class="about-card">
-                        <div class="about-icon">📚</div>
-                        <h3>Our Mission</h3>
-                        <p>To bridge educational gaps in Ghana by connecting students with quality learning resources and tutors through innovative digital solutions.</p>
+            <section id="tutors" class="tutor-section">
+                <div class="container">
+                    <h2>Find Local Tutors</h2>
+                    <div class="tutor-search">
+                        <input type="text" id="location-search" placeholder="Enter your location (e.g., Kumasi)">
+                        <button id="search-tutors" class="btn primary">Search</button>
                     </div>
-                    <div class="about-card">
-                        <div class="about-icon">🌍</div>
-                        <h3>Our Reach</h3>
-                        <p>Currently serving students in 5 regions across Ghana with plans to expand nationwide by 2025.</p>
-                    </div>
-                    <div class="about-card">
-                        <div class="about-icon">💡</div>
-                        <h3>Our Approach</h3>
-                        <p>Combining local educational expertise with modern technology to create solutions that work for Ghanaian students.</p>
+                    <div class="tutor-results" id="tutor-results-container">
+                        <!-- Tutor results will be loaded dynamically -->
                     </div>
                 </div>
-                
-                <div class="team-section">
-                    <h3>Meet The Team</h3>
-                    <div class="team-grid">
-                        <div class="team-member">
-                            <div class="member-initial">JA</div>
-                            <h4>Jeremiah Adawu</h4>
-                            <p>Developer & Education specialist</p>
+            </section>
+
+            <section id="about" class="about-section">
+                <div class="container">
+                    <div class="about-content">
+                        <h2>About EduConnect Ghana</h2>
+                        <div class="about-grid">
+                            <div class="about-card">
+                                <div class="about-icon">📚</div>
+                                <h3>Our Mission</h3>
+                                <p>To bridge educational gaps in Ghana by connecting students with quality learning resources and tutors through innovative digital solutions.</p>
+                            </div>
+                            <div class="about-card">
+                                <div class="about-icon">🌍</div>
+                                <h3>Our Reach</h3>
+                                <p>Currently serving students in 5 regions across Ghana with plans to expand nationwide by 2025.</p>
+                            </div>
+                            <div class="about-card">
+                                <div class="about-icon">💡</div>
+                                <h3>Our Approach</h3>
+                                <p>Combining local educational expertise with modern technology to create solutions that work for Ghanaian students.</p>
+                            </div>
                         </div>
-                        <div class="team-member">
-                            <div class="member-initial">MM</div>
-                            <h4>Maud Marfo</h4>
-                            <p>Developer</p>
-                        </div>
-        
-                    </div>
-                </div>
+                        
+                        <div class="team-section">
+                            <h3>Meet The Team</h3>
+                            <div class="team-grid">
+                                <div class="team-member">
+                                    <div class="member-initial">JA</div>
+                                    <h4>Jeremiah Adawu</h4>
+                                    <p>Developer & Education specialist</p>
+                                </div>
+                                <div class="team-member">
+                                    <div class="member-initial">MM</div>
+                                    <h4>Maud Marfo</h4>
+                                    <p>Developer</p>
+                                </div>
                 
-                <div class="stats-section">
-                    <div class="stat-item">
-                        <div class="stat-number">1,200+</div>
-                        <div class="stat-label">Students Helped</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">85</div>
-                        <div class="stat-label">Volunteer Tutors</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number">12</div>
-                        <div class="stat-label">Partner Schools</div>
+                
+                            </div>
+                        </div>
+                        
+                        <div class="stats-section">
+                            <div class="stat-item">
+                                <div class="stat-number">1,200+</div>
+                                <div class="stat-label">Students Helped</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">85</div>
+                                <div class="stat-label">Volunteer Tutors</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number">12</div>
+                                <div class="stat-label">Partner Schools</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
     </section>
 
     <footer class="main-footer">
@@ -167,5 +196,44 @@
     </footer>
 
     <script src="app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+<div id="auth-modal" class="modal" style="display:none; position:fixed; z-index:1001; left:0; top:0; width:100%; height:100%; overflow:auto; background-color:rgba(0,0,0,0.4);">
+    <div class="modal-content" style="background-color:#fefefe; margin:15% auto; padding:20px; border:1px solid #888; width:80%; max-width:400px; border-radius:8px;">
+        <span class="close-modal" style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
+        <h3 id="auth-title">Login</h3>
+        <input type="email" id="auth-email" placeholder="Email" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:4px;">
+        <input type="password" id="auth-password" placeholder="Password" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:4px;">
+        <button id="auth-submit" class="btn primary" style="width:100%;">Submit</button>
+        <p id="auth-toggle" style="text-align:center; cursor:pointer; color:var(--secondary-color); margin-top:10px;">Need an account? Sign Up</p>
+    </div>
+</div>
+
+<section id="holidays" class="about-section" style="background-color: #eef2f9;">
+    <div class="container">
+        <h2>Upcoming Public Holidays in Ghana</h2>
+        <p style="text-align:center; margin-bottom: 30px;">Plan your studies around upcoming holidays!</p>
+        <div id="holidays-container" style="text-align:center;">
+            <p>Loading holiday information...</p>
+        </div>
+    </div>
+</section>
+
+
+
+<div id="tutor-modal" class="modal" style="display:none;">
+    <div class="modal-content">
+        <span class="close-tutor-modal" style="color:#aaa; float:right; font-size:28px; font-weight:bold; cursor:pointer;">&times;</span>
+        <h3 id="tutor-modal-title">Add New Tutor</h3>
+        <input type="hidden" id="tutor-id"> <input type="text" id="tutor-name-input" placeholder="Tutor's Name" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="tutor-location-input" placeholder="Location (e.g., Accra)" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:4px;">
+        <input type="text" id="tutor-subjects-input" placeholder="Subjects (comma-separated, e.g., math,science)" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:4px;">
+        <textarea id="tutor-bio-input" placeholder="Short Bio" style="width:100%; padding:10px; margin:8px 0; border:1px solid #ccc; border-radius:4px;"></textarea>
+        <button id="tutor-submit-btn" class="btn primary" style="width:100%;">Save Tutor</button>
+    </div>
+</div>
+
 </body>
 </html>

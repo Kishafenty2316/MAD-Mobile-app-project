@@ -349,6 +349,20 @@ body {
     max-height: 100%;
 }
 
+.resource-icon {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 140px;
+	background-color: #f0f4ff;
+	color: var(--secondary-color);
+}
+
+.resource-icon svg {
+	width: 56px;
+	height: 56px;
+}
+
 .resource-content {
     padding: 20px;
 }
@@ -643,6 +657,26 @@ body {
     border-top: 1px solid #444;
     font-size: 0.9rem;
     color: #aaa;
+}
+
+/* In-app notifications */
+.notification {
+	position: fixed;
+	left: 50%;
+	bottom: 24px;
+	transform: translateX(-50%);
+	background: #1f2937;
+	color: #fff;
+	padding: 12px 16px;
+	border-radius: 6px;
+	box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+	z-index: 2000;
+	opacity: 1;
+	transition: opacity 0.5s ease;
+}
+
+.notification.fade-out {
+	opacity: 0;
 }
 
 /* Responsive Design */
